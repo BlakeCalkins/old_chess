@@ -26,6 +26,21 @@ public class ChessBoard {
         board[row][col] = piece;
     }
 
+    public void removePiece(ChessPosition position) {
+        int row = position.getRow();
+        int col = position.getColumn();
+        board[row][col] = null;
+    }
+
+    public void clearBoard() {
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                removePiece(new ChessPosition(row, col));
+            }
+        }
+    }
+
+
     /**
      * Gets a chess piece on the chessboard
      *
@@ -44,6 +59,7 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
+        clearBoard();
+
     }
 }
