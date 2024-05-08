@@ -65,8 +65,8 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        int row = position.getRow();
-        int col = position.getColumn();
+        int row = position.getRow() - 1;
+        int col = position.getColumn() - 1;
         return board[row][col];
     }
 
@@ -81,25 +81,25 @@ public class ChessBoard {
                 ChessPosition position = new ChessPosition(row + 1, col + 1);
                 ChessPiece piece = null;
                 if (row == 1) {
-                    piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
-                } else if (row == 6) {
                     piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+                } else if (row == 6) {
+                    piece = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
                 } else if (row == 0) {
-                    piece = switch (col) {
-                        case 0, 7 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
-                        case 1, 6 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
-                        case 2, 5 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
-                        case 3 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN);
-                        case 4 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
-                        default -> piece;
-                    };
-                } else if (row == 7) {
                     piece = switch (col) {
                         case 0, 7 -> new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
                         case 1, 6 -> new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
                         case 2, 5 -> new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
                         case 3 -> new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN);
                         case 4 -> new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING);
+                        default -> piece;
+                    };
+                } else if (row == 7) {
+                    piece = switch (col) {
+                        case 0, 7 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
+                        case 1, 6 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
+                        case 2, 5 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+                        case 3 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN);
+                        case 4 -> new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
                         default -> piece;
                     };
                 }
