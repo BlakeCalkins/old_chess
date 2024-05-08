@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -14,31 +15,11 @@ public class ChessPiece {
     private ChessGame.TeamColor teamColor;
     private ChessPiece.PieceType pieceType;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ChessPiece that = (ChessPiece) o;
-        return teamColor == that.teamColor && pieceType == that.pieceType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(teamColor, pieceType);
-    }
-
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.teamColor = pieceColor;
         this.pieceType = type;
     }
 
-    @Override
-    public String toString() {
-        return "ChessPiece{" +
-                "teamColor=" + teamColor +
-                ", pieceType=" + pieceType +
-                '}';
-    }
 
     /**
      * The various different chess piece options
@@ -75,6 +56,37 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         //check piece type and instantiate movesCalculator according to type
+        ChessPiece myPiece = board.getPiece(myPosition);
+        switch (myPiece.getPieceType()) {
+            case KING:
+                KingMovesCalculator calculator = new KingMovesCalculator(board, myPosition);
+                return calculator.pieceMoves();
+            case PAWN:
+                break;
+        }
+        return new ArrayList<>();
+    }
+
+
+    @Override
+    public String toString() {
+        return "ChessPiece{" +
+                "teamColor=" + teamColor +
+                ", pieceType=" + pieceType +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return teamColor == that.teamColor && pieceType == that.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(teamColor, pieceType);
     }
 }
 

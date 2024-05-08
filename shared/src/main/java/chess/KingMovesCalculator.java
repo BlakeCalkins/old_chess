@@ -9,9 +9,15 @@ public class KingMovesCalculator extends PieceMovesCalculator {
         super(board, myPosition);
     }
 
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-//        ChessPiece myPiece = board.getPiece(myPosition);
-        ArrayList<ChessPosition> movesList = new ArrayList<>();
+    @Override
+    public Collection<ChessMove> pieceMoves() {
+        ChessPiece myPiece = board.getPiece(myPosition);
+        ChessGame.TeamColor myColor = myPiece.getTeamColor();
+        ChessGame.TeamColor opponentColor = switch (myColor) {
+            case BLACK -> ChessGame.TeamColor.WHITE;
+            case WHITE -> ChessGame.TeamColor.BLACK;
+        };
+        Collection<ChessMove> movesCollection = new ArrayList<>();
 
 
         int kingRow = myPosition.getRow();
@@ -27,8 +33,17 @@ public class KingMovesCalculator extends PieceMovesCalculator {
                 if (row == kingRow && col == kingCol) {
                     continue;
                 }
-
+                ChessPiece currPiece = board.getPiece(new ChessPosition(row, col));
+                ChessPosition currPosition = new ChessPosition(row, col);
+                if (currPiece == null) {
+                    movesCollection.add(new ChessMove(myPosition, currPosition, null));
+                    continue;
+                }
+                if (currPiece.getTeamColor() == opponentColor) {
+                    movesCollection.add(new ChessMove(myPosition, currPosition, null));
+                }
             }
         }
+        return movesCollection;
     }
 }
