@@ -64,6 +64,9 @@ public class ChessPiece {
             case KNIGHT:
                 KnightMovesCalculator calculator1 = new KnightMovesCalculator(board, myPosition);
                 return calculator1.pieceMoves();
+            case BISHOP:
+                BishopMovesCalculator calculator2 = new BishopMovesCalculator(board, myPosition);
+                return calculator2.pieceMoves();
         }
         return new ArrayList<>();
     }
