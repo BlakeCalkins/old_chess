@@ -35,11 +35,7 @@ public class KingMovesCalculator extends PieceMovesCalculator {
                 }
                 ChessPiece currPiece = board.getPiece(new ChessPosition(row, col));
                 ChessPosition currPosition = new ChessPosition(row, col);
-                if (currPiece == null) {
-                    movesCollection.add(new ChessMove(myPosition, currPosition, null));
-                    continue;
-                }
-                if (currPiece.getTeamColor() == opponentColor) {
+                if (currPiece == null || (currPiece.getTeamColor() == opponentColor)) {
                     movesCollection.add(new ChessMove(myPosition, currPosition, null));
                 }
             }
