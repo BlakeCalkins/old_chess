@@ -1,6 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -12,8 +11,8 @@ import java.util.Objects;
  */
 public class ChessPiece {
 
-    private ChessGame.TeamColor teamColor;
-    private ChessPiece.PieceType pieceType;
+    private final ChessGame.TeamColor teamColor;
+    private final ChessPiece.PieceType pieceType;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.teamColor = pieceColor;
@@ -57,24 +56,32 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         //check piece type and instantiate movesCalculator according to type
         ChessPiece myPiece = board.getPiece(myPosition);
-        switch (myPiece.getPieceType()) {
-            case KING:
+        return switch (myPiece.getPieceType()) {
+            case KING -> {
                 KingMovesCalculator calculator = new KingMovesCalculator(board, myPosition);
-                return calculator.pieceMoves();
-            case KNIGHT:
+                yield calculator.pieceMoves();
+            }
+            case KNIGHT -> {
                 KnightMovesCalculator calculator1 = new KnightMovesCalculator(board, myPosition);
-                return calculator1.pieceMoves();
-            case BISHOP:
+                yield calculator1.pieceMoves();
+            }
+            case BISHOP -> {
                 BishopMovesCalculator calculator2 = new BishopMovesCalculator(board, myPosition);
-                return calculator2.pieceMoves();
-            case ROOK:
+                yield calculator2.pieceMoves();
+            }
+            case ROOK -> {
                 RookMovesCalculator calculator3 = new RookMovesCalculator(board, myPosition);
-                return calculator3.pieceMoves();
-            case QUEEN:
+                yield calculator3.pieceMoves();
+            }
+            case QUEEN -> {
                 QueenMovesCalculator calculator4 = new QueenMovesCalculator(board, myPosition);
-                return calculator4.pieceMoves();
-        }
-        return new ArrayList<>();
+                yield calculator4.pieceMoves();
+            }
+            case PAWN -> {
+                PawnMovesCalculator calculator5 = new PawnMovesCalculator(board, myPosition);
+                yield calculator5.pieceMoves();
+            }
+        };
     }
 
 
