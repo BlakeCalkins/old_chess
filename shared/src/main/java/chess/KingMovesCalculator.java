@@ -11,17 +11,15 @@ public class KingMovesCalculator extends PieceMovesCalculator {
 
     @Override
     public Collection<ChessMove> pieceMoves() {
-        int kingRow = myPosition.getRow();
-        int kingCol = myPosition.getColumn();
-        for (int row = kingRow - 1; row <= kingRow + 1; row++) {
+        for (int row = currRow - 1; row <= currRow + 1; row++) {
             if (row < 1 || row > 8) {
                 continue;
             }
-            for (int col = kingCol-1; col <= kingCol +1; col++) {
+            for (int col = currCol-1; col <= currCol +1; col++) {
                 if (col < 1 || col > 8) {
                     continue;
                 }
-                if (row == kingRow && col == kingCol) {
+                if (row == currRow && col == currCol) {
                     continue;
                 }
                 ChessPiece currPiece = board.getPiece(new ChessPosition(row, col));

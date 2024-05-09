@@ -10,6 +10,8 @@ public abstract class PieceMovesCalculator {
     protected ChessGame.TeamColor myColor;
     protected ChessGame.TeamColor opponentColor;
     Collection<ChessMove> movesCollection;
+    protected int currRow;
+    protected int currCol;
 
     public PieceMovesCalculator(ChessBoard board, ChessPosition myPosition) {
         this.board = board;
@@ -21,11 +23,14 @@ public abstract class PieceMovesCalculator {
             case WHITE -> ChessGame.TeamColor.BLACK;
         };
         this.movesCollection = new ArrayList<>();
+        this.currRow = myPosition.getRow();
+        this.currCol = myPosition.getColumn();
     }
 
 
 
-    public Collection<ChessMove> diagonalMoves(Collection<ChessMove> moves) {
+    public Collection<ChessMove> diagonalMoves() {
+
         return new ArrayList<>();
     }
 

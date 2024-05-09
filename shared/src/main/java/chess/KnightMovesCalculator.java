@@ -10,26 +10,23 @@ public class KnightMovesCalculator extends PieceMovesCalculator {
 
     @Override
     public Collection<ChessMove> pieceMoves() {
-
-        int knightRow = myPosition.getRow();
-        int knightCol = myPosition.getColumn();
-        for (int row = knightRow - 2; row <= knightRow + 2; row++) {
+        for (int row = currRow - 2; row <= currRow + 2; row++) {
             if (row < 1 || row > 8) {
                 continue;
             }
-            for (int col = knightCol - 2; col <= knightCol + 2; col++) {
+            for (int col = currCol - 2; col <= currCol + 2; col++) {
                 if (col < 1 || col > 8) {
                     continue;
                 }
-                if (row == knightRow && col == knightCol) {
+                if (row == currRow && col == currCol) {
                     continue;
                 }
                 ChessPiece currPiece = board.getPiece(new ChessPosition(row, col));
                 ChessPosition currPosition = new ChessPosition(row, col);
-                if ((row == knightRow - 2 && (col == knightCol - 1 || col == knightCol + 1)) ||
-                        (row == knightRow - 1 && (col == knightCol - 2 || col == knightCol + 2)) ||
-                        (row == knightRow + 1 && (col == knightCol - 2 || col == knightCol + 2)) ||
-                        (row == knightRow + 2 && (col == knightCol - 1 || col == knightCol + 1))) {
+                if ((row == currRow - 2 && (col == currCol - 1 || col == currCol + 1)) ||
+                        (row == currRow - 1 && (col == currCol - 2 || col == currCol + 2)) ||
+                        (row == currRow + 1 && (col == currCol - 2 || col == currCol + 2)) ||
+                        (row == currRow + 2 && (col == currCol - 1 || col == currCol + 1))) {
                     if (currPiece == null || (currPiece.getTeamColor() == opponentColor)) {
                         movesCollection.add(new ChessMove(myPosition, currPosition, null));
                     }
