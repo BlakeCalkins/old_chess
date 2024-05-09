@@ -11,15 +11,6 @@ public class KingMovesCalculator extends PieceMovesCalculator {
 
     @Override
     public Collection<ChessMove> pieceMoves() {
-        ChessPiece myPiece = board.getPiece(myPosition);
-        ChessGame.TeamColor myColor = myPiece.getTeamColor();
-        ChessGame.TeamColor opponentColor = switch (myColor) {
-            case BLACK -> ChessGame.TeamColor.WHITE;
-            case WHITE -> ChessGame.TeamColor.BLACK;
-        };
-        Collection<ChessMove> movesCollection = new ArrayList<>();
-
-
         int kingRow = myPosition.getRow();
         int kingCol = myPosition.getColumn();
         for (int row = kingRow - 1; row <= kingRow + 1; row++) {
