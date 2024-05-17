@@ -9,25 +9,12 @@ import java.util.Objects;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessBoard {
+public class ChessBoard implements Cloneable {
 
     private ChessPiece[][] board;
 
     public ChessBoard() {
         this.board = new ChessPiece[8][8];
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ChessBoard that = (ChessBoard) o;
-        return Objects.deepEquals(board, that.board);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(board);
     }
 
     /**
@@ -111,11 +98,41 @@ public class ChessBoard {
     }
 
     @Override
+    protected Object clone() throws CloneNotSupportedException {
+        ChessBoard clonedBoard = (ChessBoard) super.clone();
+        clonedBoard.board = new ChessPiece[8][8];
+
+        for (int row = 0; row < this.board.length; row++) {
+            for (int col = 0; col < this.board[row].length; col++) {
+                ChessPiece piece = this.board[row][col];
+                if (piece != null) {
+                    clonedBoard.board[row][col] = (ChessPiece) piece.clone();
+                }
+            }
+        }
+
+        return clonedBoard;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessBoard that = (ChessBoard) o;
+        return Objects.deepEquals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(board);
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
-                ChessPiece piece = getPiece(new ChessPosition(row, col));
+                ChessPiece piece = getPiece(new ChessPosition(row + 1, col + 1));
                 if (piece != null) {
                     stringBuilder.append("position:");
                     stringBuilder.append(row);
@@ -129,9 +146,14 @@ public class ChessBoard {
     }
 
     public static void main(String[] args) {
-        ChessBoard board = new ChessBoard();
-        board.resetBoard();
-        System.out.println(board.toString());
+        try {
+            ChessBoard board = new ChessBoard();
+            board.resetBoard();
+            ChessBoard cloned = (ChessBoard) board.clone();
+            System.out.println(cloned.toString());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
