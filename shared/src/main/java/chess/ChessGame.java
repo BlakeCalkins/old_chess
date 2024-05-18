@@ -12,6 +12,7 @@ public class ChessGame {
 
     private TeamColor teamTurn;
     private ChessBoard board;
+    private chess.InvalidMoveException InvalidMoveException;
 
     public ChessGame() {
         this.teamTurn = TeamColor.WHITE;
@@ -60,7 +61,10 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        ChessPosition startPosition = move.getStartPosition();
+        Collection<ChessMove> moves = validMoves(startPosition);
+        if (!hasPosition(moves, startPosition))
+            throw InvalidMoveException;
     }
 
     private boolean hasPosition(Collection<ChessMove> moves, ChessPosition position) {
@@ -101,7 +105,7 @@ public class ChessGame {
                 ChessPosition position = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(position);
                 if (piece != null && piece.getTeamColor() == opponentColor) {
-                    Collection<ChessMove> moves = validMoves(position);
+                    Collection<ChessMove> moves = piece.pieceMoves(board, position);
                     if (hasPosition(moves, kingPosition))
                         return true;
                 }
@@ -117,7 +121,11 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        if (!isInCheck(teamColor))
+            return false;
+        ChessPosition kingPosition = getKingPosition(teamColor);
+        Collection<ChessMove> moves = validMoves(kingPosition);
+        return moves.isEmpty();
     }
 
     /**
@@ -128,7 +136,9 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        ChessPosition kingPosition = getKingPosition(teamColor);
+        Collection<ChessMove> moves = validMoves(kingPosition);
+        return moves.isEmpty();
     }
 
     /**
