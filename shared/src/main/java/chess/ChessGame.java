@@ -12,11 +12,12 @@ public class ChessGame {
 
     private TeamColor teamTurn;
     private ChessBoard board;
-    private chess.InvalidMoveException InvalidMoveException;
+    private final chess.InvalidMoveException InvalidMoveException;
 
     public ChessGame() {
         this.teamTurn = TeamColor.WHITE;
         this.board = new ChessBoard();
+        this.InvalidMoveException = new InvalidMoveException();
     }
 
     /**
@@ -62,9 +63,17 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ChessPosition startPosition = move.getStartPosition();
+        ChessPosition endPosition = move.getEndPosition();
+        ChessPiece piece = board.getPiece(startPosition);
         Collection<ChessMove> moves = validMoves(startPosition);
         if (!hasPosition(moves, startPosition))
             throw InvalidMoveException;
+        if (piece.getTeamColor() != teamTurn)
+            throw InvalidMoveException;
+        if (board.getPiece(endPosition) != null)
+            board.removePiece(endPosition);
+        board.removePiece(startPosition);
+        board.addPiece(endPosition, piece);
     }
 
     private boolean hasPosition(Collection<ChessMove> moves, ChessPosition position) {
