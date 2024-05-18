@@ -99,19 +99,23 @@ public class ChessBoard implements Cloneable {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        ChessBoard clonedBoard = (ChessBoard) super.clone();
-        clonedBoard.board = new ChessPiece[8][8];
+        try {
+            ChessBoard clonedBoard = (ChessBoard) super.clone();
+            clonedBoard.board = new ChessPiece[8][8];
 
-        for (int row = 0; row < this.board.length; row++) {
-            for (int col = 0; col < this.board[row].length; col++) {
-                ChessPiece piece = this.board[row][col];
-                if (piece != null) {
-                    clonedBoard.board[row][col] = (ChessPiece) piece.clone();
+            for (int row = 0; row < this.board.length; row++) {
+                for (int col = 0; col < this.board[row].length; col++) {
+                    ChessPiece piece = this.board[row][col];
+                    if (piece != null) {
+                        clonedBoard.board[row][col] = (ChessPiece) piece.clone();
+                    }
                 }
             }
-        }
 
-        return clonedBoard;
+            return clonedBoard;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Cloning not supported for this object", e);
+        }
     }
 
     @Override
