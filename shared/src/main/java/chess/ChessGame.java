@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -102,7 +103,17 @@ public class ChessGame {
         board.removePiece(startPosition);
         if (board.getPiece(endPosition) != null)
             board.removePiece(endPosition);
-        board.addPiece(endPosition, piece);
+        if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            ChessPiece.PieceType type = move.getPromotionPiece();
+            if (type == null) {
+                board.addPiece(endPosition, piece);
+            } else {
+                ChessPiece pawnPromoted = new ChessPiece(piece.getTeamColor(), type);
+                board.addPiece(endPosition, pawnPromoted);
+            }
+        } else {
+            board.addPiece(endPosition, piece);
+        }
 
         teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
     }
@@ -173,6 +184,8 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
+        if (!isInCheck(teamColor))
+            return false;
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
                 ChessPosition position = new ChessPosition(row, col);
@@ -235,5 +248,18 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         return board;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessGame chessGame = (ChessGame) o;
+        return teamTurn == chessGame.teamTurn && Objects.equals(board, chessGame.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(teamTurn, board);
     }
 }
