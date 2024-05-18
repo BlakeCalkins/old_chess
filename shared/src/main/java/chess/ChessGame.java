@@ -92,11 +92,11 @@ public class ChessGame {
         ChessPosition endPosition = move.getEndPosition();
         ChessPiece piece = board.getPiece(startPosition);
         Collection<ChessMove> moves = validMoves(startPosition);
-        if (!hasPosition(moves, startPosition))
+        if (moves != null && !hasPosition(moves, startPosition))
             throw InvalidMoveException;
-        if (piece.getTeamColor() != teamTurn)
+        if (piece != null && piece.getTeamColor() != teamTurn)
             throw InvalidMoveException;
-        if (!checkMove(piece, move))
+        if (piece != null && !checkMove(piece, move))
             throw InvalidMoveException;
         if (board.getPiece(endPosition) != null)
             board.removePiece(endPosition);
